@@ -1,1 +1,3 @@
-
+This repository contains the KiCad schematic for the HASP2018 DRS.
+In the folder you will find the .sch file that contains the schematic, the .kicad_pcb file with the pcb layout file, 
+the custom.lib library for the schematic components, and the customfoots.pretty folder with the pcb layout components.
