@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE eagle SYSTEM "eagle.dtd">
-<eagle version="8.7.0">
+<eagle version="7.6.0">
 <drawing>
 <settings>
 <setting alwaysvectorfont="no"/>
 <setting verticaltext="up"/>
 </settings>
-<grid distance="0.1" unitdist="inch" unit="inch" style="lines" multiple="1" display="yes" altdistance="0.01" altunitdist="inch" altunit="inch"/>
+<grid distance="0.1" unitdist="inch" unit="inch" style="lines" multiple="1" display="no" altdistance="0.01" altunitdist="inch" altunit="inch"/>
 <layers>
 <layer number="1" name="Top" color="4" fill="1" visible="yes" active="yes"/>
 <layer number="16" name="Bottom" color="1" fill="1" visible="no" active="yes"/>
@@ -60,20 +60,20 @@
 <library>
 <packages>
 <package name="IMU">
-<smd name="6" x="0" y="-1.0125" dx="0.25" dy="0.675" layer="1"/>
-<smd name="1" x="-1.2625" y="0.75" dx="0.25" dy="0.675" layer="1" rot="R270"/>
-<smd name="2" x="-1.2625" y="0.25" dx="0.25" dy="0.675" layer="1" rot="R90"/>
-<smd name="3" x="-1.2625" y="-0.25" dx="0.25" dy="0.675" layer="1" rot="R90"/>
-<smd name="4" x="-1.2625" y="-0.75" dx="0.25" dy="0.675" layer="1" rot="R270"/>
-<smd name="7" x="0.5" y="-1.0125" dx="0.25" dy="0.675" layer="1" rot="R180"/>
-<smd name="5" x="-0.5" y="-1.0125" dx="0.25" dy="0.675" layer="1" rot="R180"/>
-<smd name="14" x="-0.5" y="1.0125" dx="0.25" dy="0.675" layer="1"/>
-<smd name="13" x="0" y="1.0125" dx="0.25" dy="0.675" layer="1" rot="R180"/>
-<smd name="12" x="0.5" y="1.0125" dx="0.25" dy="0.675" layer="1" rot="R180"/>
-<smd name="11" x="1.2625" y="0.75" dx="0.25" dy="0.675" layer="1" rot="R90"/>
-<smd name="10" x="1.2625" y="0.25" dx="0.25" dy="0.675" layer="1" rot="R90"/>
-<smd name="9" x="1.2625" y="-0.25" dx="0.25" dy="0.675" layer="1" rot="R90"/>
-<smd name="8" x="1.2625" y="-0.75" dx="0.25" dy="0.675" layer="1" rot="R270"/>
+<smd name="P$6" x="0" y="-1.0125" dx="0.25" dy="0.675" layer="1"/>
+<smd name="P$1" x="-1.2625" y="0.75" dx="0.25" dy="0.675" layer="1" rot="R270"/>
+<smd name="P$2" x="-1.2625" y="0.25" dx="0.25" dy="0.675" layer="1" rot="R90"/>
+<smd name="P$3" x="-1.2625" y="-0.25" dx="0.25" dy="0.675" layer="1" rot="R90"/>
+<smd name="P$4" x="-1.2625" y="-0.75" dx="0.25" dy="0.675" layer="1" rot="R270"/>
+<smd name="P$7" x="0.5" y="-1.0125" dx="0.25" dy="0.675" layer="1" rot="R180"/>
+<smd name="P$5" x="-0.5" y="-1.0125" dx="0.25" dy="0.675" layer="1" rot="R180"/>
+<smd name="P$14" x="-0.5" y="1.0125" dx="0.25" dy="0.675" layer="1"/>
+<smd name="P$13" x="0" y="1.0125" dx="0.25" dy="0.675" layer="1" rot="R180"/>
+<smd name="P$12" x="0.5" y="1.0125" dx="0.25" dy="0.675" layer="1" rot="R180"/>
+<smd name="P$11" x="1.2625" y="0.75" dx="0.25" dy="0.675" layer="1" rot="R90"/>
+<smd name="P$10" x="1.2625" y="0.25" dx="0.25" dy="0.675" layer="1" rot="R90"/>
+<smd name="P$9" x="1.2625" y="-0.25" dx="0.25" dy="0.675" layer="1" rot="R90"/>
+<smd name="P$8" x="1.2625" y="-0.75" dx="0.25" dy="0.675" layer="1" rot="R270"/>
 <circle x="-1.55" y="0.65" radius="0.01" width="0" layer="21"/>
 <wire x1="-1.5" y1="1.25" x2="-1.5" y2="-1.25" width="0" layer="21"/>
 <wire x1="-1.5" y1="-1.25" x2="1.5" y2="-1.25" width="0" layer="21"/>
@@ -115,20 +115,20 @@
 <devices>
 <device name="" package="IMU">
 <connects>
-<connect gate="G$1" pin="ASCX" pad="3"/>
-<connect gate="G$1" pin="ASDX" pad="2"/>
-<connect gate="G$1" pin="CSB" pad="12"/>
-<connect gate="G$1" pin="GND" pad="7"/>
-<connect gate="G$1" pin="GNDIO" pad="6"/>
-<connect gate="G$1" pin="INT1" pad="4"/>
-<connect gate="G$1" pin="INT2" pad="9"/>
-<connect gate="G$1" pin="OCSB" pad="10"/>
-<connect gate="G$1" pin="OSDO" pad="11"/>
-<connect gate="G$1" pin="SCX" pad="13"/>
-<connect gate="G$1" pin="SDO" pad="1"/>
-<connect gate="G$1" pin="SDX" pad="14"/>
-<connect gate="G$1" pin="VDD" pad="8"/>
-<connect gate="G$1" pin="VDDIO" pad="5"/>
+<connect gate="G$1" pin="ASCX" pad="P$3"/>
+<connect gate="G$1" pin="ASDX" pad="P$2"/>
+<connect gate="G$1" pin="CSB" pad="P$12"/>
+<connect gate="G$1" pin="GND" pad="P$7"/>
+<connect gate="G$1" pin="GNDIO" pad="P$6"/>
+<connect gate="G$1" pin="INT1" pad="P$4"/>
+<connect gate="G$1" pin="INT2" pad="P$9"/>
+<connect gate="G$1" pin="OCSB" pad="P$10"/>
+<connect gate="G$1" pin="OSDO" pad="P$11"/>
+<connect gate="G$1" pin="SCX" pad="P$13"/>
+<connect gate="G$1" pin="SDO" pad="P$1"/>
+<connect gate="G$1" pin="SDX" pad="P$14"/>
+<connect gate="G$1" pin="VDD" pad="P$8"/>
+<connect gate="G$1" pin="VDDIO" pad="P$5"/>
 </connects>
 <technologies>
 <technology name=""/>
