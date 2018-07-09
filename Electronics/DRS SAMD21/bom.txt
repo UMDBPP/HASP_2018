@@ -1,0 +1,21 @@
+Partlist exported from C:/UMD/BPP/HASP/2018/HASP_2018/Electronics/DRS SAMD21/drs.sch at 7/9/2018 5:26
+
+Qty Value       Device                 Package         Parts            Description                
+1               ABS07AIG-32.768KHZ-1-T 2-SMD           XTAL1                                       
+1               C-USC0603              C0603           C1               CAPACITOR, American symbol 
+2               FERRITE_BEAD-0603      0603            FB1, FB2                                    
+1               PINHD-1X1              1X01            JP3              PIN HEADER                 
+1               PINHD-1X2              1X02            JP5              PIN HEADER                 
+1               PINHD-1X3              1X03            JP1              PIN HEADER                 
+1               PINHD-1X4              1X04            JP2              PIN HEADER                 
+1               PINHD-2X3              2X03            JP4              PIN HEADER                 
+2               R-US_R0603             R0603           R4, R5           RESISTOR, American symbol  
+1   100nF       C-USC0603              C0603           C9               CAPACITOR, American symbol 
+1   100nF       RESISTOR-ARRAY0603-ARV 0603-ARV        R3               Array Chip Resistor        
+1   10k         R-US_R0603             R0603           R6               RESISTOR, American symbol  
+1   10uF        C-USC0603              C0603           C4               CAPACITOR, American symbol 
+1   1M          R-US_R0603             R0603           R2               RESISTOR, American symbol  
+1   1uF         C-USC0603              C0603           C6               CAPACITOR, American symbol 
+4   6.8pF       C-USC0603              C0603           C7, C8, C10, C11 CAPACITOR, American symbol 
+1   ATSAMD21G18 ATSAMD21G18            48-TQFP         U1                                          
+1   MICRO_SD    MICRO_SD               MICRO_SD_HINGED U$1                                         
