@@ -5,6 +5,7 @@
 #define COMMAND_PIN 6
 #define ACTUATOR_PIN_HBRIDGE_A 3 // yellow
 #define ACTUATOR_PIN_HBRIDGE_B 4 // green
+#define DAS_PIN 7
 
 /* APIDs */
 #define RetractActuator 'A'
@@ -22,19 +23,19 @@
 int COMMAND = 0;
 bool extended = false;
 bool armed = true;
-
-
+int DAS_STATUS_PIN = 0;
+int DAS_STATUS = 0;
+int DAS_message = 0;
 void setup() {
   //intialize serial
   Serial.begin(1200);
-  Serial.print("Initializing ");
+  Serial.println("Initializing ");
 
   pinMode(COMMAND_PIN, INPUT);
   pinMode(ACTUATOR_PIN_HBRIDGE_A, OUTPUT);
   pinMode(ACTUATOR_PIN_HBRIDGE_B, OUTPUT);
-  pinMode(6, OUTPUT);
-   
-  digitalWrite(6,HIGH);
+  pinMode(DAS_PIN, OUTPUT);
+  digitalWrite(DAS_PIN, HIGH);
   digitalWrite(ACTUATOR_PIN_HBRIDGE_A, LOW);
   digitalWrite(ACTUATOR_PIN_HBRIDGE_B, LOW);
 
@@ -52,7 +53,17 @@ void loop() {
 
   
     COMMAND = digitalRead(COMMAND_PIN);
-    Serial.println("looped");
+    DAS_STATUS = analogRead(DAS_STATUS_PIN);
+    
+    if (DAS_STATUS >= 600)
+    {
+      DAS_message = 1;
+    }
+    else
+    {
+      DAS_message = 0;
+    }
+    Serial.println(DAS_message);
 
 }
 
@@ -83,10 +94,10 @@ void command_response(void)
           break;
 
         case DasRecordOn:
-          Serial.print("Recieved Das Cmd Starting Recording");
-          digitalWrite(6, LOW);
+          Serial.print("Recieved Das Cmd Starting Recording:  ");
+          digitalWrite(DAS_PIN, LOW);
           delay(2000);
-          digitalWrite(6,HIGH);
+          digitalWrite(DAS_PIN,HIGH);
           Serial.println("Recording");
           break;
           
