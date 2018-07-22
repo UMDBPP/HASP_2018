@@ -1,0 +1,136 @@
+//libraries
+
+
+//Defined values
+#define COMMAND_PIN 6
+#define ACTUATOR_PIN_HBRIDGE_A 3 // yellow
+#define ACTUATOR_PIN_HBRIDGE_B 4 // green
+
+/* APIDs */
+#define RetractActuator 'A'
+#define ExtendActuator 'C'
+#define DasRecordOn 'E'
+#define case4 'G'
+#define case5 'I'
+#define case6 'K'
+
+/* response codes */
+#define INIT_RESPONSE 0xAC
+#define RETRACT_RESPONSE 0xE1
+
+//Global Variables
+int COMMAND = 0;
+bool extended = false;
+bool armed = true;
+
+
+void setup() {
+  //intialize serial
+  Serial.begin(1200);
+  Serial.print("Initializing ");
+
+  pinMode(COMMAND_PIN, INPUT);
+  pinMode(ACTUATOR_PIN_HBRIDGE_A, OUTPUT);
+  pinMode(ACTUATOR_PIN_HBRIDGE_B, OUTPUT);
+  pinMode(6, OUTPUT);
+   
+  digitalWrite(6,HIGH);
+  digitalWrite(ACTUATOR_PIN_HBRIDGE_A, LOW);
+  digitalWrite(ACTUATOR_PIN_HBRIDGE_B, LOW);
+
+  armed = true;
+  delay(1000);
+}
+
+void loop() {
+  // initalize a counter to record how many bytes were read this iteration
+    int BytesRead = 0;
+
+
+        // respond to it
+    command_response();
+
+  
+    COMMAND = digitalRead(COMMAND_PIN);
+    Serial.println("looped");
+
+}
+
+//command function
+void command_response(void)
+{
+    /*  command_response()
+     *
+     *  given an array of data (presumably containing a CCSDS packet), check if the
+     *  packet is a CAMERA command packet, and if so, process it
+     */
+    char Cmd;
+    if (Serial.available()>0){
+      Cmd = Serial.read();
+
+      switch(Cmd){
+        case RetractActuator:
+
+           Serial.print("Recieved Retract Cmd:  ");
+           retract(25);
+           Serial.println("Retracted");
+           break;
+
+        case ExtendActuator:
+          Serial.print("Recieved Extend Cmd:  ");
+          extend(10);
+          Serial.println("Extended");
+          break;
+
+        case DasRecordOn:
+          Serial.print("Recieved Das Cmd Starting Recording");
+          digitalWrite(6, LOW);
+          delay(2000);
+          digitalWrite(6,HIGH);
+          Serial.println("Recording");
+          break;
+          
+          
+          
+      }
+    }
+}
+
+
+//extend function
+void extend(int pulse_seconds)
+{
+    controlActuator(1, pulse_seconds);
+    extended = true;
+}
+
+//retract function
+void retract(int pulse_seconds)
+{
+    controlActuator(-1, pulse_seconds);
+    extended = false;
+}
+
+//Polarity Switchable Acutation
+void controlActuator(int direction, int pulse_seconds)
+{
+
+// actuator without built-in polarity switch
+    if (direction < 0)
+    {
+        digitalWrite(ACTUATOR_PIN_HBRIDGE_A, LOW);
+        digitalWrite(ACTUATOR_PIN_HBRIDGE_B, HIGH);
+    }
+    else if (direction > 0)
+    {
+        digitalWrite(ACTUATOR_PIN_HBRIDGE_A, HIGH);
+        digitalWrite(ACTUATOR_PIN_HBRIDGE_B, LOW);
+    }
+
+    delay(pulse_seconds * 1000);
+
+    digitalWrite(ACTUATOR_PIN_HBRIDGE_A, LOW);
+    digitalWrite(ACTUATOR_PIN_HBRIDGE_B, LOW);
+
+}
+
