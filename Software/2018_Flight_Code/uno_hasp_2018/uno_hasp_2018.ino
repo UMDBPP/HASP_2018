@@ -6,6 +6,8 @@
 #define ACTUATOR_PIN_HBRIDGE_A 3 // yellow
 #define ACTUATOR_PIN_HBRIDGE_B 4 // green
 #define DAS_PIN 7
+#define Actuator_discrete 12
+#define DAS_discrete 11
 
 /* APIDs */
 #define RetractActuator 'A'
@@ -30,7 +32,8 @@ void setup() {
   //intialize serial
   Serial.begin(1200);
   Serial.println("Initializing ");
-
+  pinMode(Actuator_discrete, INPUT);
+  pinMode(DAS_discrete,INPUT);
   pinMode(COMMAND_PIN, INPUT);
   pinMode(ACTUATOR_PIN_HBRIDGE_A, OUTPUT);
   pinMode(ACTUATOR_PIN_HBRIDGE_B, OUTPUT);
@@ -54,7 +57,20 @@ void loop() {
   
     COMMAND = digitalRead(COMMAND_PIN);
     DAS_STATUS = analogRead(DAS_STATUS_PIN);
-    
+    if (digitalRead(Actuator_discrete)== HIGH)
+    {
+      Serial.print("Recieved discrete Retract Cmd:  ");
+      retract(25);
+      Serial.println("Retracted");
+    }
+    if (digitalRead(DAS_discrete)== HIGH)
+    {
+      Serial.print("Recieved Das discrete Cmd Starting Recording:  ");
+      digitalWrite(DAS_PIN, LOW);
+      delay(2000);
+      digitalWrite(DAS_PIN,HIGH);
+      Serial.println("Recording");
+    }
     if (DAS_STATUS >= 600)
     {
       DAS_message = 1;
