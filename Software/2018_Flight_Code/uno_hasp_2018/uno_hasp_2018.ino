@@ -2,7 +2,6 @@
 
 
 //Defined values
-#define COMMAND_PIN 6
 #define ACTUATOR_PIN_HBRIDGE_A 3 // yellow
 #define ACTUATOR_PIN_HBRIDGE_B 4 // green
 #define DAS_PIN 7
@@ -25,7 +24,7 @@
 int COMMAND = 0;
 bool extended = false;
 bool armed = true;
-int DAS_STATUS_PIN = 0;
+int DAS_STATUS_PIN = 6;
 int DAS_STATUS = 0;
 int DAS_message = 0;
 void setup() {
@@ -34,7 +33,6 @@ void setup() {
   Serial.println("Initializing ");
   pinMode(Actuator_discrete, INPUT);
   pinMode(DAS_discrete,INPUT);
-  pinMode(COMMAND_PIN, INPUT);
   pinMode(ACTUATOR_PIN_HBRIDGE_A, OUTPUT);
   pinMode(ACTUATOR_PIN_HBRIDGE_B, OUTPUT);
   pinMode(DAS_PIN, OUTPUT);
@@ -43,7 +41,7 @@ void setup() {
   digitalWrite(ACTUATOR_PIN_HBRIDGE_B, LOW);
 
   armed = true;
-  delay(1000);
+  delay(20000);
 }
 
 void loop() {
@@ -55,14 +53,15 @@ void loop() {
     command_response();
 
   
-    COMMAND = digitalRead(COMMAND_PIN);
-    DAS_STATUS = analogRead(DAS_STATUS_PIN);
+    
+
     if (digitalRead(Actuator_discrete)== HIGH)
     {
       Serial.print("Recieved discrete Retract Cmd:  ");
       retract(25);
       Serial.println("Retracted");
     }
+    
     if (digitalRead(DAS_discrete)== HIGH)
     {
       Serial.print("Recieved Das discrete Cmd Starting Recording:  ");
@@ -71,6 +70,8 @@ void loop() {
       digitalWrite(DAS_PIN,HIGH);
       Serial.println("Recording");
     }
+
+    DAS_STATUS = analogRead(DAS_STATUS_PIN);
     if (DAS_STATUS >= 600)
     {
       DAS_message = 1;
