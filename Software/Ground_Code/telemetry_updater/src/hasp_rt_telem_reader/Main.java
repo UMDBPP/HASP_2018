@@ -22,13 +22,32 @@ public class Main {
 		String lastFileTaken = "";
 		ArrayList<String> readData = new ArrayList<String>();
 		
+		System.out.print("Enter your two digit payload number: ");
+		BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
+		String payloadNumber = "";
+		boolean getPayloadNumber = true;
+		while (getPayloadNumber) {
+			try {
+				payloadNumber = reader.readLine();
+			} catch (IOException e3) {
+				System.out.print("Could not read from terminal");
+				e3.printStackTrace();
+			}
+			if (payloadNumber.matches("\\d\\d"))
+				getPayloadNumber = false;
+			else
+				System.out.println("Payload number is not two digits. Try again: ");
+		}
+		
+		String haspURLString = "http://laspace.lsu.edu/hasp/groups/2018/data/data.php?pname=Payload_".concat(payloadNumber).concat("&py=2018");
+		
 		while(true) {
 		
 			URL haspWebpage = null;
 			try {
-				haspWebpage = new URL("http://laspace.lsu.edu/hasp/groups/2018/data/data.php?pname=Payload_05&py=2018");
+				haspWebpage = new URL(haspURLString);
 			} catch (MalformedURLException e2) {
-				// TODO Auto-generated catch block
+				System.out.println("Could not access HASP data page");
 				e2.printStackTrace();
 			}
 			BufferedReader in = null;
@@ -36,7 +55,7 @@ public class Main {
 				in = new BufferedReader(
 						new InputStreamReader(haspWebpage.openStream()));
 			} catch (IOException e1) {
-				// TODO Auto-generated catch block
+				System.out.println("Could not open stream to HASP webpage");
 				e1.printStackTrace();
 			}
 
@@ -46,13 +65,13 @@ public class Main {
 				while ((inputLine = in.readLine()) != null)
 					haspHtml.add(inputLine);
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
+				System.out.println("Could not read from HASP webpage");
 				e.printStackTrace();
 			}
 			try {
 				in.close();
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
+				System.out.println("Could not properly close stream");
 				e.printStackTrace();
 			}
 
@@ -86,7 +105,7 @@ public class Main {
 					file = new URL("https://laspace.lsu.edu/hasp/groups/2018/data/" + currLastFile);
 				
 				} catch (MalformedURLException e) {
-					// TODO Auto-generated catch block
+					System.out.println("Could not access latest telemetry file");
 					e.printStackTrace();
 				}
 				BufferedReader fileIn = null;
@@ -98,7 +117,7 @@ public class Main {
 						fileData.add(lineIn);
 					fileIn.close();
 				} catch (IOException e) {
-					// TODO Auto-generated catch block
+					System.out.println("Could not read from latest telemetry file");
 					e.printStackTrace();
 				}
 			
