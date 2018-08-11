@@ -1,3 +1,6 @@
+#include <SD.h>
+#include <SPI.h>
+
 //libraries
 
 
@@ -17,6 +20,14 @@
 #define case5 'I'
 #define case6 'K'
 
+// Datalogging things
+File dataFile;
+#define chipSelect 10
+
+// DRS
+#define DataLineOne 5
+#define DataLineTwo 9
+
 /* response codes */
 #define INIT_RESPONSE 0xAC
 #define RETRACT_RESPONSE 0xE1
@@ -27,7 +38,8 @@ bool extended = false;
 char actuatorStatus = 'E';
 bool armed = true;
 int DAS_message = 0;
-
+unsigned long int* DataOneValue;
+unsigned long int* DataTwoValue;
 unsigned long t;
 unsigned long t_last = 0;
 unsigned int sec; 
@@ -42,6 +54,8 @@ void setup() {
   pinMode(ACTUATOR_PIN_HBRIDGE_B, OUTPUT);
   pinMode(DAS_PIN, OUTPUT);
   pinMode(DAS_STATUS_PIN, INPUT);
+  pinMode(DataLineOne, OUTPUT);
+  pinMode(DataLineTwo, OUTPUT);
   digitalWrite(DAS_PIN, HIGH);
   digitalWrite(ACTUATOR_PIN_HBRIDGE_A, LOW);
   digitalWrite(ACTUATOR_PIN_HBRIDGE_B, LOW);
@@ -55,6 +69,21 @@ void loop() {
   sec = t/1000;
   check_serial();
   check_discrete();
+  
+  double dataOneHold = 5 * random(101) * 0.01;
+  double dataTwoHold = 5 * random(101) * 0.01;
+  
+  // debugging
+  Serial.print(dataOneHold);
+  Serial.print(",");
+  Serial.println(dataTwoHold);
+  
+  // Set the analog lines to voltages
+  uint16_t dataOne = map(dataOneHold, 0, 5, 0, 255);
+  uint16_t dataTwo = map(dataTwoHold, 0, 5, 0, 255);
+  
+  analogWrite(DataLineOne, dataOne);
+  analogWrite(DataLineTwo, dataTwo);
 
   if(t - t_last > 5000){
     downlink();
@@ -192,8 +221,6 @@ void controlActuator(int direction, int pulse_seconds)
     digitalWrite(ACTUATOR_PIN_HBRIDGE_B, LOW);
 
 }
-
-
 
 //
 //SENSOR CHECKS
