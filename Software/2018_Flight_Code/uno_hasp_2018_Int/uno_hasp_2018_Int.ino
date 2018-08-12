@@ -8,8 +8,8 @@
 #define ACTUATOR_PIN_HBRIDGE_A 3 // yellow
 #define ACTUATOR_PIN_HBRIDGE_B 4 // green
 #define DAS_PIN 7
-#define Actuator_discrete 12
-#define DAS_discrete 11
+#define Actuator_discrete 2
+#define DAS_discrete 1
 #define DAS_STATUS_PIN 6
 
 /* APIDs */
@@ -46,7 +46,7 @@ unsigned int sec;
 
 void setup() {
   //intialize serial
-  Serial.begin(1200);
+  Serial.begin(9600);
   Serial.println("Initializing ");
   pinMode(Actuator_discrete, INPUT);
   pinMode(DAS_discrete,INPUT);
@@ -62,30 +62,26 @@ void setup() {
 
   armed = true;
   delay(20000);
-}
 
+    // Initalize SD card
+  Serial.print("Initializing SD card...");
+  // see if the card is present and can be initialized:
+  if (!SD.begin(chipSelect)) {
+    Serial.println("Card failed, or not present");
+  }
+  else
+  {
+    Serial.println("card initialized.");
+}
+}
 void loop() {
   t = millis();
   sec = t/1000;
   check_serial();
   check_discrete();
-  
-  double dataOneHold = 5 * random(101) * 0.01;
-  double dataTwoHold = 5 * random(101) * 0.01;
-  
-  // debugging
-  Serial.print(dataOneHold);
-  Serial.print(",");
-  Serial.println(dataTwoHold);
-  
-  // Set the analog lines to voltages
-  uint16_t dataOne = map(dataOneHold, 0, 5, 0, 255);
-  uint16_t dataTwo = map(dataTwoHold, 0, 5, 0, 255);
-  
-  analogWrite(DataLineOne, dataOne);
-  analogWrite(DataLineTwo, dataTwo);
 
   if(t - t_last > 5000){
+    DRS();
     downlink();
     t_last = t;
   }
@@ -220,6 +216,25 @@ void controlActuator(int direction, int pulse_seconds)
     digitalWrite(ACTUATOR_PIN_HBRIDGE_A, LOW);
     digitalWrite(ACTUATOR_PIN_HBRIDGE_B, LOW);
 
+}
+
+void DRS() {
+  double dataOneHold = 5 * random(101) * 0.01;
+  double dataTwoHold = 5 * random(101) * 0.01;
+  
+  // Set the analog lines to voltages
+  uint16_t dataOne = map(dataOneHold, 0, 5, 0, 255);
+  uint16_t dataTwo = map(dataTwoHold, 0, 5, 0, 255);
+  
+  analogWrite(DataLineOne, dataOne);
+  analogWrite(DataLineTwo, dataTwo);
+
+  // Record voltages to SD card
+  dataFile = SD.open("datalog.txt", FILE_WRITE);
+  dataFile.print(dataOneHold);
+  dataFile.print(",");
+  dataFile.println(dataTwoHold);
+  dataFile.close();
 }
 
 //
