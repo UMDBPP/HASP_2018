@@ -46,7 +46,7 @@ unsigned int sec;
 
 void setup() {
   //intialize serial
-  Serial.begin(9600);
+  Serial.begin(1200);
   Serial.println("Initializing ");
   pinMode(Actuator_discrete, INPUT);
   pinMode(DAS_discrete,INPUT);
