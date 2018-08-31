@@ -91,8 +91,8 @@ def check_if_new(payload_number, telem_files, prev_version, prev_last_line):
 def save_new_text(telem_array, start_pos):
 	# prints the new data to command line and saves it to a single text document
 
+	fp = open("telemetry.txt",'a')
+
 	for i in range(start_pos, len(telem_array)):
 		print(telem_array[i])
-
-	# TODO: write to file
-	# TODO: make sure it doesn't pull the same thing multiple times
+		fp.write(telem_array[i])
