@@ -20,15 +20,13 @@ def telem_parser(payload_number):
 
 		telem_files = parse_table(web_text)
 
-		
-
-		(contains_new, new_line_start_pos) = check_if_new(payload_number, telem_files, prev_version, prev_last_line)
+		(contains_new, new_line_start_pos, telem_array) = check_if_new(payload_number, telem_files, prev_version, prev_last_line)
 
 		if (contains_new):
 
 			save_new_text(telem_array, new_line_start_pos)
 
-			prev_version = curr_version
+			prev_version = telem_files[-1]
 
 			prev_last_line = telem_array[-1]
 
@@ -65,7 +63,10 @@ def parse_telem_file(payload_number, curr_version):
 
 def check_if_new(payload_number, telem_files, prev_version, prev_last_line):
 	# checks to see if new data has been added to the current file or if the file is new
-	# TODO: if new file, does it also write data to the previous file?
+	
+	# if the program just entered, just grab all the stuff in the latest file:
+	if(prev_version == ''):
+		return (True, 0, parse_telem_file(payload_number, telem_files[-1]))
 
 	if (prev_version != telem_files[-1]):
 		telem_array = parse_telem_file(payload_number, telem_files[-2])
@@ -75,18 +76,20 @@ def check_if_new(payload_number, telem_files, prev_version, prev_last_line):
 		for i in range(0, len(telem_array)):
 			if (telem_array[i] == prev_last_line):
 				if (len(telem_array) > i+1):
-					return (True, i+1)
+					return (True, i+1, telem_array)
 				else:
 					# we should never reach here, but it could happen I suppose?
-					return (False, -1)
-	
-	telem_array = parse_telem_file(payload_number, telem_files[-1])
-	for i in range(0, len(telem_array)):
-		if (telem_array[i] == prev_last_line):
-			if (len(telem_array) > i+1):
-				return (True, i+1)
+					return (False, -1, telem_array)
 			else:
-				return (False, -1)
+				return (True, 0, telem_array)
+	else:
+		telem_array = parse_telem_file(payload_number, telem_files[-1])
+		for i in range(0, len(telem_array)):
+			if (telem_array[i] == prev_last_line):
+				if (len(telem_array) > i+1):
+					return (True, i+1, telem_array)
+				else:
+					return (False, -1, telem_array)
 
 def save_new_text(telem_array, start_pos):
 	# prints the new data to command line and saves it to a single text document
